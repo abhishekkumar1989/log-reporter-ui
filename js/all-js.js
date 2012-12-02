@@ -1,5 +1,9 @@
 var base_site = "/backend/";
 
+$(document).ready(function(){
+	$("#result-area").hide();
+});
+
 $('.site-home').click(function() {
 	$('#home').show();
 });
@@ -8,6 +12,7 @@ $('#query-form').submit(function(e) {
 	var form = this;
 	var stop_time = $("input[name = 'stop_time']", form).val();
 	// TODO : all the basic check like non-negative, empty fields
+	// check_fields(form)
 	if(!stop_time)
 		$("input[name = 'stop_time']", form).val(0);
 	$.ajax({
@@ -27,13 +32,54 @@ $('#query-form').submit(function(e) {
 	});
 });	
 
+function make_counter_query() {
+	$.ajax({
+		url : "/backend/all_error_details",
+		data : "type=" + current_loaded_type,
+		dataType : "json",
+		success : function(response) {
+			draw_basic_chart(response);
+			// populate the google chart
+		},
+		error : function(response) {
+			// notify the user
+		}
+	});
+}
+
+function make_query() {
+	var next = all_types[(all_types.indexOf(current_loaded_type)) + 1];
+	var error_name = $("#chart_div").val();
+	if(next) {
+		$.ajax({
+			url : "/backend/get_counter",
+			data : "row_key="+error_name + "&type=" + next + "&cf=" + current_type_value,
+			dataType : "json",
+			success : function(response) {
+				current_loaded_type = next;
+		        draw_chart(response);
+			},
+			error : function(response) {
+				// notify the user
+			}
+		});
+	}
+}
+
+function check_fields(form) {
+	var form_params = $(":input[value][value!='']",form).serialize();
+	return false;
+}
+
 function post_error() {
+	$("#result-area").show();
 	add_error_message(true);
 	enable_query_button();
 	flip_icon(false);	
 }
 
 function post_query_result(response) {
+	$("#result-area").show();
 	add_success_results(response);	
 	enable_query_button();
 	flip_icon(false);

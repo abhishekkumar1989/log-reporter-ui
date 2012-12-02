@@ -3,6 +3,7 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script> 
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script src="bootstrap/js/bootstrap.min.js"></script>
 	  <script src="http://code.jquery.com/jquery-latest.js"></script>
   	<link ref="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css"></link> 
@@ -15,44 +16,46 @@
 	</head>
 
 	<body screen_capture_injected="true">
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">Log Reporter</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
+    <div class="container">
+      <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">Log Reporter</a>
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#search">Contact</a></li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
         </div>
       </div>
-    </div>
-    <div class="container">
+      <div id="chart_div"></div>
       <div class="hero-unit">
-        <h3>Mongo Log Reporter</h3>
-        <div class="row">
-          <div class="span9">
-            <form class="navbar-form pull-lefy" id="query-form">
-              <span class="badge badge-success">1</span><input type="text" class="span2" name="row_key" placeholder="Row-Key">
-              <span class="badge badge-success">2</span><input type="text" class="span2" name="start_time" placeholder="Start : Minutes Back">
-              <span class="badge badge-success">3</span><input type="text" class="span2" name="stop_time" placeholder="Stop : Minutes Back">
-              <span class="badge badge-success">3</span><input type="text" class="span2" name="versions" placeholder="Number of Errors">
-              <button type="submit" class="btn"><i class="icon-search"></i></button> 
-            </form>
-          </div>
+      <h3>Search Culprits</h3>
+      <div class="row">
+        <div class="span11">
+          <form class="navbar-form pull-lefy" id="query-form">
+            <span class="badge badge-success">1</span><input type="text" class="span2" name="row_key" placeholder="Error-Type" required>
+            <span class="badge badge-success">2</span><input type="text" class="span2" name="start_time" placeholder="Start : Minutes Back">
+            <span class="badge badge-success">3</span><input type="text" class="span2" name="stop_time" placeholder="Stop : Minutes Back">
+            <span class="badge badge-success">4</span><input type="text" class="span2 " name="versions" placeholder="Number of Errors">
+            <span class="badge badge-success">5</span><input type="text" class="span2" name="value" placeholder="Error-Value">
+            <button type="submit" class="btn"><i class="icon-search"></i></button> 
+          </form>
         </div>
-        <div id="query-success" class="row">
-          <div class="span5 alert alert-success" style="display:none">
-            Query submitted successfully, please wait..
-          </div>
+      </div>
+      <div id="query-success" class="row">
+        <div class="span5 alert alert-success" style="display:none">
+          Query submitted successfully, please wait..
         </div>
+      </div>
       </div>
       <div class="hero-unit" id="result-area">
         <div class="row">
@@ -62,50 +65,9 @@
         </div>
         <div class="row text-error" id="error">
         </div>
-         <script src="js/all-js.js"></script>
       </div>
-
-
-              <div class="accordion" id="accordion2">
-                <div class="accordion-group">
-                  <div class="accordion-heading">
-                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                      Add Row-Keys #1
-                    </a>
-                  </div>
-                  <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">
-                    <div class="accordion-inner">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion-group">
-                  <div class="accordion-heading">
-                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                      Get All Row-Keys #2
-                    </a>
-                  </div>
-                  <div id="collapseTwo" class="accordion-body collapse" style="height: 0px; ">
-                    <div class="accordion-inner">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion-group">
-                  <div class="accordion-heading">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-                      Collapsible Group Item #3
-                    </a>
-                  </div>
-                  <div id="collapseThree" class="accordion-body collapse" style="height: 0px; ">
-                    <div class="accordion-inner">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
+      <script src="js/all-js.js"></script>
+      <script src="js/google-charts.js"></script>      
     </div>
     <hr>
 	 </body>
