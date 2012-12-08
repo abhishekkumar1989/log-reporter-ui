@@ -4,19 +4,22 @@ google.setOnLoadCallback(make_counter_query);
 var current_selected_type;
 
 function draw_basic_chart(response) {
-    var year = new Date().getFullYear();
+    var current_timeline_display = new Date().getFullYear();
     
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Error-Type');
     data.addColumn('number', 'Count');
     
     for(var key in response) {
-        data.addRow([key, response[key][year]]);
+        for(var i in response[key]) {
+            if(response[key][i]["type"]==current_timeline_display)
+                data.addRow([key, response[key][i]["value"]]);
+        }
     }
 
     // Set chart options
     var options = {
-        'title':'All Count Errors',
+        'title':'All Errors : ' + current_timeline_display,
         'width':400,
         'height':300
     };
@@ -31,7 +34,7 @@ function draw_basic_chart(response) {
         $("#chart_div_monthly").val({err : error_name, type : "monthly"});
         $("#chart_div_daily").empty();
         current_selected_type="monthly";
-        make_query(year);
+        make_query(current_timeline_display);
       }
     }
 
@@ -47,14 +50,14 @@ function draw_chart(response) {
     
     for(var key in response) {
         if(response[key]) {
-            for(var key2 in response[key])  
-            data.addRow([key2, response[key][key2]]);
+            for(var i in response[key])  
+            data.addRow([response[key][i]["type"], response[key][i]["value"]]);
         }
     }
 
     // Set chart options
     var options = {
-        'title':'Count Errors : ' + $("#chart_div_monthly").val().err,
+        'title':'Error : ' + $("#chart_div_monthly").val().err,
         'width':400,
         'height':300
     };

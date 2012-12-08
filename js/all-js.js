@@ -2,7 +2,19 @@ var base_site = "/backend/";
 
 $(document).ready(function(){
 	$("#result-area").hide();
+	$("#tab-contents").css("overflow", "hidden")
 });
+
+
+$("li", "#tab-list").click(function(event) {
+	var active_tab = $("li[class='active']", "#tab-list").removeClass('active');
+	$(event.currentTarget).addClass("active");
+	var tab_no = $('a',event.currentTarget).attr('href');
+	// tab_no = tab_no.replace("#","");
+	var active_div_tab = $(".active", "#tab-contents").removeClass('active');
+	$(tab_no).addClass('active');
+});
+
 
 $('.site-home').click(function() {
 	$('#home').show();
@@ -74,22 +86,17 @@ function make_counter_query() {
 
 function make_query(duration_type) {
 	var error_name = $("#chart_div_monthly").val().err;
-
-	// get the current selected division-type ie "yearly, monthly, daily"
-
-	if(current_selected_type) {
-		$.ajax({
-			url : "/backend/get_counter",
-			data : "row_key="+error_name + "&type=" + current_selected_type + "&cf=" + duration_type,
-			dataType : "json",
-			success : function(response) {
-		        draw_chart(response);
-			},
-			error : function(response) {
-				// notify the user
-			}
-		});
-	}
+	$.ajax({
+		url : "/backend/get_counter",
+		data : "row_key="+error_name + "&type=" + current_selected_type + "&cf=" + duration_type,
+		dataType : "json",
+		success : function(response) {
+	        draw_chart(response);
+		},
+		error : function(response) {
+			// notify the user
+		}
+	});
 }
 
 function check_fields(form) {
@@ -138,8 +145,8 @@ function enable_query_button() {
 
 function add_success_results(data) {
 	var data_html = "";
-	for(var key in data) {
-		data_html = data_html + "<dl><dt>"+ key +"</dt><dd>"+ data[key] +"</dd></dl>"
+	for(var i in data) {
+		data_html = data_html + "<dl><dt>"+ data[i]["date"] +"</dt><dd>"+ data[i]["error"] +"</dd></dl>"
 	}
 	$('#result').html(data_html);
 }
