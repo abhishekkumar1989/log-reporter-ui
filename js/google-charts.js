@@ -1,5 +1,5 @@
 google.load('visualization', '1.0', {'packages':['corechart']});
-google.setOnLoadCallback(make_counter_query);
+google.setOnLoadCallback(make_initial_counter_query);
 
 var current_selected_type;
 var global_response;
@@ -35,7 +35,7 @@ function draw_basic_chart(response, year_option_selected) {
         $("#chart_div_monthly").val({err : error_name, type : "monthly"});
         $("#chart_div_daily").empty();
         current_selected_type="monthly";
-        make_query(year_option_selected);
+        make_error_count_query(year_option_selected);
       }
     }
 
@@ -43,7 +43,7 @@ function draw_basic_chart(response, year_option_selected) {
     chart.draw(data, options);
 }
 
-function draw_chart(response) {
+function draw_chart_for_error(response) {
     // Create the data table.
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Division-Type');
@@ -74,11 +74,15 @@ function draw_chart(response) {
         var selectedItem = chart.getSelection()[0];
         if (selectedItem) {
             var duration_type = data.getValue(selectedItem.row, 0);
-            if(duration_type.split("-").length == 2)
-                make_query(duration_type);
+            if(is_current_date_represent_month(duration_type))
+                make_error_count_query(duration_type);
             else
                 get_daily_error_result(duration_type);
         }
+    }
+
+    function is_current_date_represent_month(duration_type) {
+        return duration_type.split("-").length == 2;
     }
 
 }
