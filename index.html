@@ -10,10 +10,13 @@
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"></link>		
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.css" media="screen"></link>
 		
-<style type="text/css">
+    <style type="text/css">
       body {
         padding-top: 60px;
         padding-bottom: 40px;
+      }
+      .hover {
+        background-color:Lavender;
       }
     </style>
 
@@ -28,7 +31,7 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="/">Home</a></li>
-              <li><a href="#about" data-toggle="modal">About</a></li>
+              <li><a href="#about-us" data-toggle="modal">About</a></li>
               <li><a href="#search">Contact</a></li>
             </ul>
           </div><!--/.nav-collapse -->
@@ -37,24 +40,25 @@
     </div>
     <div class="container">  
 
-    <ul class="nav nav-tabs" id="tab-list">
-        <li class="active"><a href="#tab1">Home</a></li>
-        <li><a href="#tab2">Search</a></li>
-        <li><a href="#tab3">Messages</a></li>
-        <li><a href="#tab4">Settings</a></li>
-    </ul>
+      <ul class="nav nav-tabs" id="tab-list">
+          <li class="active"><a href="#tab1">Home</a></li>
+          <li><a href="#tab2">Search</a></li>
+          <li><a href="#tab3">Messages</a></li>
+          <li><a href="#tab4">Settings</a></li>
+      </ul>
 
-    <div class="tab-content" id="tab-contents">
-      <div class="tab-pane active span12" id="tab1">
-        <div class="row">
-          <select class="span2"></select>
+      <div class="tab-content" id="tab-contents">
+        <div class="tab-pane active span12" id="tab1">
+          <div class="row">
+            <select class="span2"></select>
+          </div>
+          <div class="row">
+            <div id="chart_div" class="span4"></div>
+            <div id="chart_div_monthly" class="span4"></div>
+            <div id="chart_div_daily" class="span4"></div>
+          </div>
+          <div class="row text-success" id="day-result"></div>
         </div>
-        <div class="row">
-          <div id="chart_div" class="span4"></div>
-          <div id="chart_div_monthly" class="span4"></div>
-          <div id="chart_div_daily" class="span4"></div>
-        </div>
-      </div>
         <div class="tab-pane" id="tab2">
           <div class="hero-unit">
             <h3>Search Culprits</h3>
@@ -76,6 +80,15 @@
               </div>
             </div>
           </div>
+          <div id="result-area">
+            <div class="row">
+              <button class="offset9 btn btn-warning" style='display:none'>Clear Results</button> 
+            </div>
+            <div class="row text-success" id="search-result">
+            </div>
+            <div class="row text-error" id="error">
+            </div>
+          </div>
         </div>
         <div class="tab-pane" id="tab3">
           Inside Messages
@@ -83,20 +96,27 @@
         <div class="tab-pane" id="tab4">
           Inside Settings : You can set some global settings
         </div>
-    </div>
+      </div>
 
-    <div class="hero-unit" id="result-area">
-      <div class="row">
-        <button class="offset9 btn btn-warning" style='display:none'>Clear Results</button> 
-      </div>
-      <div class="row text-success" id="result">
-      </div>
-      <div class="row text-error" id="error">
-      </div>
-    </div>
-
+<!-- about-us modal -->
+      <div class="modal hide fade in" id="about-us"  style="display: none;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h3>Log Reporter</h3>
+        </div>
+        <div class="modal-body">
+          <p>The app is developed to give a view of the mongo logs, how they are performing and what is issue occuring. This also will provide set of alerting mechanism if some strange issues arrive.</p>
+        </div>
+        <div class="modal-footer">
+          <!-- <a href="#" class="btn">Close</a> -->
+        </div>
+      </div> 
+      
+<!-- all the scripts -->
       <script src="js/all-js.js"></script>
-      <script src="js/google-charts.js"></script>      
+      <script src="js/google-charts.js"></script>   
+      <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-modal.js"></script>   
+      <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>
     </div>
     <hr>
 	 </body>
