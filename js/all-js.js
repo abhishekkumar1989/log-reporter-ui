@@ -67,14 +67,18 @@ function get_daily_error_result(day) {
 	});
 }
 
-function make_counter_query() {
+function make_counter_query(event, time_range_display) {
+	if(!time_range_display)
+		time_range_display = "monthly"
 	$("#chart_div").val({type:"yearly"})
 	$.ajax({
 		url : "/backend/all_error_details",
-		data : "type=yearly",
+		data : "type=" + time_range_display,
 		dataType : "json",
 		success : function(response) {
-			draw_basic_chart(response);
+			var display_time_range = time_range_display.match("yearly") ? new Date().getFullYear() : new Date().getFullYear() + "-" + (new Date().getMonth() + 1);
+			populate_year_selection_area(response, display_time_range);														// getMonth() + 1
+			draw_basic_chart(response, display_time_range);
 			// populate the google chart
 		},
 		error : function(error) {
@@ -83,6 +87,33 @@ function make_counter_query() {
 		}
 	});
 }
+
+function populate_year_selection_area(response, display_time_range) {
+	var elem = $("select", "#tab1");
+	var diff_dates = [];
+	var data_html;
+
+    for(var error_type in response) {
+        for(var i in response[error_type]) {
+        	var time_range = response[error_type][i]["type"]
+            if(diff_dates.indexOf(time_range) < 0) {
+            	diff_dates.push(time_range);
+            	if(time_range == display_time_range)
+            		data_html = data_html + "<option value=" + time_range + " selected='selected'>" + time_range + "</option>";
+            	else
+            		data_html = data_html + "<option value="+ time_range +">" + time_range + "</option>";
+            }
+        }
+    }
+    elem.html(data_html);
+}
+
+$("select:first", "#tab1").change(function(event) {
+	$("#chart_div_monthly").empty();
+	$("#chart_div_daily").empty();
+	$("#result").empty();
+	draw_basic_chart(global_response, event.currentTarget.value);
+});
 
 function make_query(duration_type) {
 	var error_name = $("#chart_div_monthly").val().err;
